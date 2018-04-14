@@ -1,0 +1,67 @@
+type Prod {
+  id: Int!
+  name: String!
+  catname: String!
+  catid: Int!
+}
+type Cat {
+  id: Int!
+  name: String!
+}
+type OrderName {
+  id: Int!
+  name: String!
+}
+type OrderLine {
+  product: Prod!
+  numproducts: Int! 
+}
+type Order {
+  id: Int!
+  name: String!
+  orderlines: [OrderLine]!
+}
+input InOrderline {
+  prodid: Int!
+  numproducts: Int!
+}
+input InOrdername {
+  id: Int!
+  name: String!
+}
+input InCat {
+  id: Int!
+  name: String!
+}
+input InProd {
+  id: Int!
+  name: String!
+  catname: String!
+  catid: String!
+}
+schema {
+  query: Query
+  mutation: Mutation
+}
+type Query {
+  readCatFromDB(id: Int!): Cat
+  readProdFromDB(id: Int!): Prod
+  readAllCatFromDB: [Cat]
+  readAllProdFromDB: [Prod]
+  readAllOrderNamesFromDB: [OrderName]
+  readOrderFromDB(id: Int!): Order
+}
+type Mutation {
+  addCatToDB(catname: String!): Int
+  saveCatToDB(cat: InCat!): Boolean
+  removeProdFromDB(id: Int!): Boolean
+  removeCatFromDB(id: Int!): Boolean
+  addProdToDB(prodname: String!, catid: Int!): Int
+  saveProdToDB(prod: InProd!): Boolean
+  addOrderNameToDB(ordername: String!): Int
+  removeOrderFromDB(id: Int!): Boolean
+  saveOrderNameToDB(oname: InOrdername!): Boolean
+  addLineToOrder(idorder: Int!, oline: InOrderline!): Boolean
+  incOrderLine(idorder: Int!, idprod: Int!): Boolean
+  decOrderLine(idorder: Int!, idprod: Int!): Boolean
+}
